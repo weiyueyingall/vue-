@@ -1,17 +1,5 @@
 <template>
-    <el-container class="container">
-    <el-header class="header">
-        <el-row>
-            <el-col :span="4"><img src="@/assets/logo.png" alt=""></el-col>
-            <el-col :span="18">电商后台管理系统</el-col>
-            <el-col :span="2"><a href="#">退出</a></el-col>
-        </el-row>
-    </el-header>
-    <el-container>
-      <el-aside  class="aside" width="200px">Aside</el-aside>
-      <el-main class="main">Main</el-main>
-    </el-container>
-  </el-container>
+   
 </template>
 
 <script>
