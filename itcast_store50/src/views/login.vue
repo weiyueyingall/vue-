@@ -26,8 +26,19 @@ export default {
   methods:{
       handlelogin(){
           this.$http.post('login',this.formData)
-            .then((response)=>{})
-            .catch(()=>{})
+            .then((response)=>{
+              const {meta:{msg,status}} = response.data;
+              if(status===200){
+                this.$message.success(msg);
+                sessionStorage.setItem('token',response.data.data.token);
+              }else{
+                this.$message.error(msg)
+              }
+            })
+            .catch((err)=>{
+              console.log(err);
+              
+            });
       }
   }
 
