@@ -4,6 +4,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router/index.js';
 import ElementUI from 'element-ui';
+import moment from 'moment';
 import '@/assets/css/index.css';
 import 'element-ui/lib/theme-chalk/index.css';
 
@@ -13,6 +14,10 @@ Vue.use(http);
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
+
+Vue.filter('formDate', (value, fmtString) => {
+    return moment(value).format(fmtString);
+});
 
 /* eslint-disable no-new */
 new Vue({

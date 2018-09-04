@@ -21,7 +21,7 @@
       style="width: 100%">
         <el-table-column
       type="index"
-      width="100">
+      width="50">
     </el-table-column>
      <el-table-column
         prop="username"
@@ -43,18 +43,11 @@
         label="用户状态"
         width="150">
       </el-table-column>
-       <el-table-column
+      <el-table-column
         prop="mg_state"
         label="操作"
         width="150">
       </el-table-column>
-      <!-- <el-table-column
-        label="操作" width="300">
-       <template slot-scope="scope">
-        <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
-        <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
-        <el-button plain size="mini" type="success" icon="el-icon-check" circle></el-button>
-      </template> -->
     </el-table>
 </el-card>
 </template>
