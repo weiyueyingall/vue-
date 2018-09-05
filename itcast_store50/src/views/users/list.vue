@@ -26,7 +26,7 @@
      <el-table-column
         prop="username"
         label="姓名"
-        width="150">
+        width="70">
       </el-table-column>
       <el-table-column
         prop="email"
@@ -36,12 +36,17 @@
       <el-table-column
         prop="mobile"
         label="电话"
+        width="100">
+      </el-table-column>
+       <el-table-column
+        prop="create_time"
+        label="时间"
         width="150">
       </el-table-column>
        <el-table-column
         prop="mg_state"
         label="用户状态"
-        width="150">
+        width="100">
       </el-table-column>
       <el-table-column
         prop="mg_state"
