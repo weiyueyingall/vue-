@@ -81,28 +81,29 @@
       :total="total">
     </el-pagination>
     <!-- 添加用户对话框 -->
-  <el-dialog title="添加用户" :visible.sync="dialogFormVisible">
+  <el-dialog @close="handleclose" title="添加用户" :visible.sync="dialogFormVisible">
   <el-form
+  :rules="rules"
   label-width="80px"
   :model="formDate"
   >
-    <el-form-item label="用户名" >
+    <el-form-item label="用户名" prop="username">
       <el-input v-model="formDate.username" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="密码" >
+    <el-form-item label="密码" prop="password">
       <el-input v-model="formDate.password" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="邮箱" >
+    <el-form-item label="邮箱" prop="email">
       <el-input v-model="formDate.email" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="电话" >
+    <el-form-item label="电话" prop="mobile">
       <el-input v-model="formDate.mobile" auto-complete="off"></el-input>
     </el-form-item>
 
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+    <el-button type="primary" @click="handleadd">确 定</el-button>
   </div>
 </el-dialog>
 </el-card>
@@ -119,7 +120,20 @@ export default {
       total : 100,
       searchvalue: '',
       dialogFormVisible:false,
-      formDate:{}
+      formDate:{
+        username:'',
+        password:'',
+        email:'',
+        mobile:''
+      },
+      rules:{
+        username:[ { required: true, message: '请输入用户名', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
+      password: [
+            { required: true, message: '请输入密码', trigger: 'blur' },
+             { min: 3, max: 5, message: '长度在 3 到 8 个字符', trigger: 'blur' }
+          ],
+      }
   };
   },
   created() {
@@ -195,6 +209,25 @@ export default {
     }else{
       this.$message.error(msg);
     }
+    },
+    handleclose(){
+      for(let key in this.formDate){
+          this.formDate[key]='';
+        }
+    },
+  async handleadd(){
+      const res = await this.$http.post('',this.formDate);
+      const {meta:{msg,status}} = res.data;
+      if(status===201){
+        this.$message.success(msg);
+        this.loadData();
+        this.dialogFormVisible =false;
+        for(let key in this.formDate){
+          this.formDate[key]='';
+        }
+      }else{
+        this.$message.error(msg);
+      }
     }
   }
 }
