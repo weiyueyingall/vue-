@@ -8,14 +8,15 @@
    </el-breadcrumb>
 <el-row class="row">
   <el-col :span="24">
-    <el-input style="width:300px" placeholder="请输入内容" class="input-with-select">
-      <el-button slot="append" icon="el-icon-search"></el-button>
+    <el-input clearable v-model="searchvalue" style="width:300px" placeholder="请输入内容" class="input-with-select">
+      <el-button @click="handlesearch" slot="append" icon="el-icon-search"></el-button>
     </el-input>
    <el-button type="success" plain>添加用户</el-button>
   </el-col>
 </el-row>
  <el-table
       :data="list"
+      v-loading="loading"
       border
       stripe
       style="width: 100%">
@@ -61,12 +62,23 @@
         label="操作"
       >
          <template slot-scope="scope">
-        <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
+        <el-button plain size="mini" type="primary" icon="el-icon-edit" circle>
+        </el-button>
         <el-button plain size="mini" type="success" icon="el-icon-check" circle></el-button>
         <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
       </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
+     <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="pagenum"
+      :page-sizes="[2, 3, 4, 5]"
+      :page-size="pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+    </el-pagination>
 </el-card>
 </template>
 
@@ -75,7 +87,11 @@ export default {
   data() {
     return {
       list: [],
-
+      loading : true,
+      pagenum : 1,
+      pagesize : 2,
+      total : 100,
+      searchvalue: ''
   };
   },
   created() {
@@ -83,24 +99,43 @@ export default {
   },
   methods:{
     loadData(){
+      this.loading = true;
       this.$http.get('users',{
         headers:{
           Authorization:window.sessionStorage.getItem('token')
         },
         params:{
-          pagenum:1,
-          pagesize:10
+          pagenum:this.pagenum,
+          pagesize:this.pagesize,
+          query:this.searchvalue
         }
       })
         .then((res)=>{
          const{data,meta} = res.data;
           if(meta.status===200){
+          this.loading = false;
           this.list = data.users;
           }
         })
         .catch((err)=>{
           console.log(this.$message.error(mete.msg));
         })
+    },
+    // 搜索功能
+    handlesearch(){
+      this.loadData();
+    },
+    // 分页方法
+    handleSizeChange(val) {
+      this.pagesize = val ;
+      this.loadData()
+
+      // console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      this.pagenum = val;
+      this.loadData();
+      // console.log(`当前页: ${val}`);
     }
   }
 };
