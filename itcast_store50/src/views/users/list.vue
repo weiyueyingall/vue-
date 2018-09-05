@@ -11,7 +11,7 @@
     <el-input clearable v-model="searchvalue" style="width:300px" placeholder="请输入内容" class="input-with-select">
       <el-button @click="handlesearch" slot="append" icon="el-icon-search"></el-button>
     </el-input>
-   <el-button type="success" plain>添加用户</el-button>
+   <el-button @click="dialogFormVisible=true" type="success" plain>添加用户</el-button>
   </el-col>
 </el-row>
  <el-table
@@ -51,7 +51,8 @@
         >
         <template slot-scope="scope">
           <el-switch
-          v-model="scope.row.mr_state"
+          @change="handlechange(scope.row)"
+          v-model="scope.row.mg_state"
           active-color="#13ce66"
           inactive-color="#ff4949">
 </el-switch>
@@ -65,7 +66,7 @@
         <el-button plain size="mini" type="primary" icon="el-icon-edit" circle>
         </el-button>
         <el-button plain size="mini" type="success" icon="el-icon-check" circle></el-button>
-        <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+        <el-button @click="handledelete(scope.row.id)" plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
       </template>
       </el-table-column>
     </el-table>
@@ -79,6 +80,31 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
+    <!-- 添加用户对话框 -->
+  <el-dialog title="添加用户" :visible.sync="dialogFormVisible">
+  <el-form
+  label-width="80px"
+  :model="formDate"
+  >
+    <el-form-item label="用户名" >
+      <el-input v-model="formDate.username" auto-complete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="密码" >
+      <el-input v-model="formDate.password" auto-complete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="邮箱" >
+      <el-input v-model="formDate.email" auto-complete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="电话" >
+      <el-input v-model="formDate.mobile" auto-complete="off"></el-input>
+    </el-form-item>
+
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+  </div>
+</el-dialog>
 </el-card>
 </template>
 
@@ -91,7 +117,9 @@ export default {
       pagenum : 1,
       pagesize : 2,
       total : 100,
-      searchvalue: ''
+      searchvalue: '',
+      dialogFormVisible:false,
+      formDate:{}
   };
   },
   created() {
@@ -113,6 +141,7 @@ export default {
         .then((res)=>{
          const{data,meta} = res.data;
           if(meta.status===200){
+          // total = data.total;
           this.loading = false;
           this.list = data.users;
           }
@@ -121,6 +150,26 @@ export default {
           console.log(this.$message.error(mete.msg));
         })
     },
+  async handledelete(id) {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async () => {
+          const res = await this.$http.delete(`users/${id}`);
+          const {meta :{status,msg}} = res.data;
+          if(status===200){
+            this.$message.success(msg);
+            if(this.pagenum>1&&this.total.length===1){
+              pagenum--;
+            }
+            this.loadData();
+          }
+        }).catch(() => {
+         this.$message.error(msg);
+        });
+      },
+
     // 搜索功能
     handlesearch(){
       this.loadData();
@@ -136,9 +185,19 @@ export default {
       this.pagenum = val;
       this.loadData();
       // console.log(`当前页: ${val}`);
+    },
+    // 用户状态
+  async  handlechange(user){
+    const res = await  this.$http.put(`users/${id}/state/${user.mg_state}`);
+    const {meta:{status,msg}} = res.data;
+    if(status===200){
+      this.$message.success(msg);
+    }else{
+      this.$message.error(msg);
+    }
     }
   }
-};
+}
 </script>
 
 <style>
