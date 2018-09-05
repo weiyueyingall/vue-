@@ -21,32 +21,43 @@
       style="width: 100%">
         <el-table-column
       type="index"
-      width="50">
+      >
     </el-table-column>
      <el-table-column
         prop="username"
         label="姓名"
-        width="150">
+       >
       </el-table-column>
       <el-table-column
         prop="email"
         label="邮箱"
-        width="150">
+        >
       </el-table-column>
       <el-table-column
         prop="mobile"
         label="电话"
-        width="150">
+        >
       </el-table-column>
        <el-table-column
-        prop="mg_state"
         label="用户状态"
-        width="150">
+        >
+        <template slot-scope="scope">
+          <el-switch
+          v-model="scope.row.mr_state"
+          active-color="#13ce66"
+          inactive-color="#ff4949">
+</el-switch>
+        </template>
       </el-table-column>
       <el-table-column
         prop="mg_state"
         label="操作"
-        width="150">
+      >
+         <template slot-scope="scope">
+        <el-button plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
+        <el-button plain size="mini" type="success" icon="el-icon-check" circle></el-button>
+        <el-button plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+      </template>
       </el-table-column>
     </el-table>
 </el-card>

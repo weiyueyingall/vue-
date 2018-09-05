@@ -24,24 +24,19 @@ export default {
     };
   },
   methods: {
-    handlelogin() {
-      this.$http.post('login', this.formData)
-        .then((response) => {
-          const {meta: {msg, status}} = response.data;
-          if (status === 200) {
+   async handlelogin() {
+      const response = await this.$http.post('login', this.formData);
+      const {meta: {msg, status}} = response.data;
+      if (status === 200) {
             this.$message.success(msg);
             sessionStorage.setItem('token', response.data.data.token);
             this.$router.push('home');
           } else {
             this.$message.error(msg);
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
+        }
 
+    }
 };
 </script>
 
