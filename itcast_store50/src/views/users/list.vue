@@ -38,6 +38,13 @@
         label="电话"
         >
       </el-table-column>
+      <el-table-column
+        label="时间"
+        >
+        <template slot-scope="scope">
+          {{ scope.row.cerate_time | formDate('YYYY-MM-DD')}}
+        </template>
+      </el-table-column>
        <el-table-column
         label="用户状态"
         >
