@@ -5,6 +5,7 @@ import App from './App.vue';
 import router from './router/index.js';
 import ElementUI from 'element-ui';
 import moment from 'moment';
+import myBreadcrumb from '@/components/MyBreadcrumb';
 import '@/assets/css/index.css';
 import 'element-ui/lib/theme-chalk/index.css';
 
@@ -12,6 +13,7 @@ import http from '@/plugins/http.js';
 
 Vue.use(http);
 Vue.use(ElementUI);
+Vue.component(myBreadcrumb.name, myBreadcrumb);
 
 Vue.config.productionTip = false;
 
