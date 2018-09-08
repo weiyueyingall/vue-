@@ -5,9 +5,9 @@
    border
    stripe
    :data="tableData"
-   style="width:100% mafgin-top=10px">
+   style="width:100% margin-top=10px">
    <el-table-column
-    type="index"
+     type="index"
     width="60">
    </el-table-column>
    <el-table-column
@@ -35,31 +35,28 @@
 
 <script>
 export default {
-  data(){
-    return{
-      tableDate:[]
-    }
+  data() {
+    return {
+      tableData: []
+    };
   },
   created() {
     this.loadDate();
   },
-  methods:{
-    async loadDate(){
+  methods: {
+    async loadDate() {
       const res = await this.$http.get('rights/list');
-      const {meta:{status,msg}} = res.data;
-      if(status===200){
-        this.tableDate = res.data;
-      }else{
+      const {meta: {status, msg}} = res.data;
+      if (status === 200) {
+        this.tableData = res.data.data;
+      } else {
         this.$http.error(msg);
       }
     }
   }
-}
+};
 </script>
 
-<style>
-  .card{
-    height: 100%;
-    overflow: auto;
-  }
+<style scope>
+
 </style>

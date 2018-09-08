@@ -88,88 +88,85 @@
 export default {
   data() {
     return {
-      tableData:[],
-      dialogVisible:false,
-      data:[],
-      defaultProps:{
-        label:'authName',
-        children:'children'
+      tableData: [],
+      dialogVisible: false,
+      data: [],
+      defaultProps: {
+        label: 'authName',
+        children: 'children'
       },
-      checkedkeys:[],
-      currentRoleId:-1
+      checkedkeys: [],
+      currentRoleId: -1
     };
   },
   created() {
     this.loadData();
   },
-  methods:{
+  methods: {
     // 加载表格数据
-   async loadData(){
-     const res = await this.$http.get('roles');
-     const{meta:{status,msg}} = res.data;
-     if(status===200){
-       this.tableData = res.data.data
-     }else{
-       this.$message.error(msg)
-     }
+    async loadData() {
+      const res = await this.$http.get('roles');
+      const {meta: {status, msg}} = res.data;
+      if (status === 200) {
+        this.tableData = res.data.data;
+      } else {
+        this.$message.error(msg);
+      }
     },
     // 删除当前角色对应的权限
-    async handleClose(role,rightId){
+    async handleClose(role, rightId) {
       const res = await this.$http.delete(`roles/${role.id}/rights/${rightId}`);
-      const {meta:{msg,status}} = res.data;
-      if(status===200){
+      const {meta: {msg, status}} = res.data;
+      if (status === 200) {
         this.$message.success(msg);
         role.children = res.data.data;
-      }else{
+      } else {
         this.$message.error(msg);
       }
     },
     // 点击分配权限  显示对话框
-    async handleOpenDialog(role){
+    async handleOpenDialog(role) {
       this.dialogVisible = true;
       const res = await this.$http.get('rights/tree');
       this.data = res.data.data;
       const arr = [];
       role.children.forEach(level1 => {
-        level1.children.forEach(level2=>{
-          level2.children.forEach(level3=>{
+        level1.children.forEach(level2 => {
+          level2.children.forEach(level3 => {
             arr.push(level3.id);
-          })
-        })
+          });
+        });
       });
       this.checkedkeys = arr;
       this.currentRoleId = role.id;
     },
     // 点击确定按钮 给当前角色设置权限
-    async handlesetRights(){
+    async handlesetRights() {
       const arr1 = this.$refs.tree.getCheckedKeys();
       const arr2 = this.$refs.tree.getHalfCheckedKeys();
       // 数组合并  解构
-      const arr = [...arr1,...arr2];
+      const arr = [...arr1, ...arr2];
       const rids = arr.join(',');
       // 发送请求
-      const res = await this.$http.post(`roles/${this.currentRoleId}/rights`,{
-        rids:rids
+      const res = await this.$http.post(`roles/${this.currentRoleId}/rights`, {
+        rids: rids
       });
-      const {meta:{msg,meta}} = res.data;
-      if(status===200){
+      const {meta: {msg, status}} = res.data;
+      if (status === 200) {
         this.$http.success(msg);
         this.dialogVisible = false;
         this.loadData();
-      }else{
+      } else {
         this.$message.error(msg);
       }
     }
   }
 
-}
+};
 </script>
 
-<style>
-.card{
-  height: 100%;
-  overflow: auto;
-}
+<style scope>
+
 .level3{
   margin-top: 5px;
   margin-bottom: 5px;

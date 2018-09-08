@@ -18,13 +18,13 @@ Vue.component(myBreadcrumb.name, myBreadcrumb);
 Vue.config.productionTip = false;
 
 Vue.filter('formDate', (value, fmtString) => {
-    return moment(value).format(fmtString);
+  return moment(value).format(fmtString);
 });
 
-/* eslint-disable no-new */
+/* eslint[-disable no-new */
 new Vue({
-    el: '#app',
-    router,
-    components: { App },
-    template: '<App/>'
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
 });
