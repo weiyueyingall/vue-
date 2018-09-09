@@ -10,12 +10,14 @@ import Rights from '@/views/rights/Rights.vue';
 import Roles from '@/views/rights/Roles.vue';
 import Categories from '@/views/goods/Categories.vue';
 import goods from '@/views/goods/goods.vue';
+import goodsadd from '@/views/goods/goodsadd.vue';
+import params from '@/views/goods/params';
 Vue.use(Router);
 
 const router = new Router({
   routes: [{
     name: 'home',
-    path: '/home',
+    path: '/',
     component: home,
     children: [{
       name: 'users',
@@ -38,6 +40,14 @@ const router = new Router({
       name: 'goods',
       path: '/goods',
       component: goods
+    }, {
+      name: 'goodsadd',
+      path: '/goods/add',
+      component: goodsadd
+    }, {
+      name: 'params',
+      path: '/params',
+      component: params
     }
     ]
   },
