@@ -186,7 +186,7 @@ export default {
       if (inputValue) {
         params.push(inputValue);
       }
-      this.inputVisible = false,
+      this.inputVisible = false;
       this.inputValue = '';
     },
     showInput() {

@@ -201,7 +201,7 @@ export default {
           attr_value: item.attr_vals
         };
       });
-      const arr2 = this.dynamicParams.map(() => {
+      const arr2 = this.dynamicParams.map((item) => {
         return {
           attr_id: item.attr_id,
           attr_value: item.attr_vals.join(',')
@@ -214,7 +214,7 @@ export default {
         this.$message.success(msg);
         this.$router.push('/goods');
       } else {
-        this.$message.error(meg);
+        this.$message.error(msg);
       }
     }
   }

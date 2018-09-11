@@ -1,17 +1,29 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import { Message } from 'element-ui';
-import login from '@/views/login.vue';
 
-import home from '@/views/home.vue';
-// import HelloWorld from '@/components/HelloWorld'
-import users from '@/views/users/list.vue';
-import Rights from '@/views/rights/Rights.vue';
-import Roles from '@/views/rights/Roles.vue';
-import Categories from '@/views/goods/Categories.vue';
-import goods from '@/views/goods/goods.vue';
-import goodsadd from '@/views/goods/goodsadd.vue';
-import params from '@/views/goods/params';
+const login = () =>
+    import('@/views/login.vue');
+const home = () =>
+    import('@/views/home.vue');
+const users = () =>
+    import('@/views/users/list.vue');
+const Rights = () =>
+    import('@/views/rights/Rights.vue');
+const Roles = () =>
+    import('@/views/rights/Roles.vue');
+const Categories = () =>
+    import('@/views/goods/Categories.vue');
+const goods = () =>
+    import('@/views/goods/goods.vue');
+const goodsadd = () =>
+    import('@/views/goods/goodsadd.vue');
+const params = () =>
+    import('@/views/goods/params');
+const order = () =>
+    import('@/views/order/order.vue');
+const reports = () =>
+    import('@/views/reports/reports.vue');
 Vue.use(Router);
 
 const router = new Router({
@@ -31,9 +43,8 @@ const router = new Router({
       name: 'roles',
       path: '/roles',
       component: Roles
-    },
-    {
-      name: 'Categories',
+    }, {
+      name: 'categories',
       path: '/categories',
       component: Categories
     }, {
@@ -48,8 +59,15 @@ const router = new Router({
       name: 'params',
       path: '/params',
       component: params
-    }
-    ]
+    }, {
+      name: 'order',
+      path: '/orders',
+      component: order
+    }, {
+      name: 'reports',
+      path: '/reports',
+      component: reports
+    }]
   },
   { name: 'login', path: '/login', component: login }
   ]
@@ -63,7 +81,7 @@ router.beforeEach((to, from, next) => {
     if (token) {
       next();
     } else {
-      // router.push('/login');
+      router.push('/login');
       Message.warning('请先登录');
     }
   }

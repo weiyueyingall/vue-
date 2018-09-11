@@ -167,7 +167,7 @@ export default {
         type: 'warning',
         center: true
       }).then(async () => {
-        const res = await this.$http.delete(`categories/${cat_id}`);
+        const res = await this.$http.delete(`categories/${cat.cat_id}`);
         const {meta: {msg, status}} = res.data;
         if (status === 200) {
           this.$message.success(msg);

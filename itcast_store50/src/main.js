@@ -7,7 +7,7 @@ import ElementUI from 'element-ui';
 import moment from 'moment';
 import myBreadcrumb from '@/components/MyBreadcrumb';
 import '@/assets/css/index.css';
-import 'element-ui/lib/theme-chalk/index.css';
+// import 'element-ui/lib/theme-chalk/index.css';
 
 import http from '@/plugins/http.js';
 
